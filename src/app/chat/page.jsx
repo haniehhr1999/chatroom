@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import man from "../../public/images/man.jpg";
+import man from "../../../public/images/man.jpg";
 import { FaUserLarge } from "react-icons/fa6";
 import IO from "socket.io-client";
 import { useEffect, useState } from "react";

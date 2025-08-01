@@ -17,7 +17,7 @@ const LoginPage = () => {
       password,
     };
 
-    const res = await fetch("http://localhost:4000/api/auth", {
+    const res = await fetch("/api/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,11 @@ const LoginPage = () => {
     console.log({ res });
 
     if (res.status === 200 || res.status === 201) {
-      router.push("/chat");
+      // set token for each user
+      const data = await res.json()
+      console.log({data})
+      // localStorage.setItem('token' , data.token)
+      // router.push("/chat");
     }
   };
 
