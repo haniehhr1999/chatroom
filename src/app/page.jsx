@@ -1,121 +1,76 @@
-import Image from "next/image";
-import man from "../../public/images/man.jpg";
-import { FaUserLarge } from "react-icons/fa6";
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
-export default function Home() {
+const LoginPage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [] = useState("");
+
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = {
+      username,
+      password,
+    };
+
+    const res = await fetch("/api/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    console.log({ res });
+
+    if (res.status === 200 || res.status === 201) {
+      // set token for each user
+      const data = await res.json()
+      console.log({data})
+      // localStorage.setItem('token' , data.token)
+      // router.push("/chat");
+    }
+  };
+
   return (
-    <div className="grid grid-cols-10 h-screen">
-      <div className="bg-[#dfe8e3] p-5 col-span-3">
-        <ul>
-          <li className="flex bg-white rounded-md px-4 py-2">
-            <div className="avatar-box">
-              <Image width={50} src={man} className="avatarr"  />
-              <div className="offline">
-
-              </div>
-            </div>
-            <div className="mx-3">
-              <h3 className="text-[#52796f] text-xl bold">محمدحسین طوافی</h3>
-              <p className="text-[#b1b1b1]">
-                این یک متن تستی برای تست است صرفا
-              </p>
-            </div>
-          </li>
-
-          <li className="flex bg-white rounded-md px-4 py-2">
-            <div className="avatar-box">
-              <Image width={50} src={man} className="avatarr"  />
-              <div className="offline">
-
-              </div>
-            </div>
-            <div className="mx-3">
-              <h3 className="text-[#52796f] text-xl bold">محمدحسین طوافی</h3>
-              <p className="text-[#b1b1b1]">
-                این یک متن تستی برای تست است صرفا
-              </p>
-            </div>
-          </li>
-
-          <li className="flex bg-white rounded-md px-4 py-2">
-            <div className="avatar-box">
-              <Image width={50} src={man} className="avatarr"  />
-              <div className="offline">
-
-              </div>
-            </div>
-            <div className="mx-3">
-              <h3 className="text-[#52796f] text-xl bold">محمدحسین طوافی</h3>
-              <p className="text-[#b1b1b1]">
-                این یک متن تستی برای تست است صرفا
-              </p>
-            </div>
-          </li>
-
-          <li className="flex bg-white rounded-md px-4 py-2">
-            <div className="avatar-box">
-              <Image width={50} src={man} className="avatarr"  />
-              <div className="offline">
-
-              </div>
-            </div>
-            <div className="mx-3">
-              <h3 className="text-[#52796f] text-xl bold">محمدحسین طوافی</h3>
-              <p className="text-[#b1b1b1]">
-                این یک متن تستی برای تست است صرفا
-              </p>
-            </div>
-          </li>
-
-          <li className="flex bg-white rounded-md px-4 py-2">
-            <div className="avatar-box">
-              <Image width={50} src={man} className="avatarr"  />
-              <div className="offline">
-
-              </div>
-            </div>
-            <div className="mx-3">
-              <h3 className="text-[#52796f] text-xl bold">محمدحسین طوافی</h3>
-              <p className="text-[#b1b1b1]">
-                این یک متن تستی برای تست است صرفا
-              </p>
-            </div>
-          </li>
-
-          <li className="flex bg-white rounded-md px-4 py-2">
-            <div className="avatar-box">
-              <Image width={50} src={man} className="avatarr"  />
-              <div className="offline">
-
-              </div>
-            </div>
-            <div className="mx-3">
-              <h3 className="text-[#52796f] text-xl bold">محمدحسین طوافی</h3>
-              <p className="text-[#b1b1b1]">
-                این یک متن تستی برای تست است صرفا
-              </p>
-            </div>
-          </li>
-        </ul>
+    <form
+      onSubmit={handleSubmit}
+      className="shadow-md w-1/3 rounded-md p-5 m-auto"
+    >
+      <div>
+        <input
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          type="text"
+          placeholder="نام کاربری خود را وارد کنید"
+          name="username"
+          id=""
+          className="w-full border border-amber-600 rounded-full py-2 px-4"
+        />
       </div>
-      <div className=" col-span-7 ">
-        <nav className="bg-[#cad2c5] text-[#52796f] p-4 flex items-center ">
-          <FaUserLarge />
-          <div className="mx-4">محمدحسین</div>
-        </nav>
-        <div className="p-8">
-          <div className="user ">
-            <div className=" bg-[#84a98c] text-white w-1/3 my-2 rounded-md px-5 py-3">
-              سلام خوبی
-            </div>
-          </div>
-          <div className="me">
-            <div className=" bg-[#354f52] text-white w-1/3 my-2 rounded-md px-5 py-3">
-              سلام کجایی چرا نیستی
-            </div>
-          </div>
-        </div>
+      <div>
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          placeholder="پسورد را وارد کنید"
+          name="password"
+          id=""
+          className="w-full my-3 border border-amber-600 rounded-full py-2 px-4"
+        />
       </div>
-    </div>
+      <button
+        type="submit"
+        className="bg-amber-700 w-full rounded-full py-2 cursor-pointer"
+      >
+        login
+      </button>
+    </form>
   );
-}
+};
+
+export default LoginPage;
