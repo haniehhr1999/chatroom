@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -23,4 +23,39 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+} */
+
+body {
+  direction: rtl;
+}
+
+.user {
+  display: flex;
+  justify-content: end;
+}
+
+.avatarr{
+  border-radius: 50000px;
+  width: 50px;
+  height: 50px;
+  aspect-ratio: 1 1 ;
+}
+
+.avatar-box{
+  position: relative;
+}
+
+.avatar-box .offline{
+  width: 12px;
+  height: 12px;
+  border: 1px solid black;
+  background-color: red;
+  border-radius: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+ul li {
+  margin: 10px 0;
 }
