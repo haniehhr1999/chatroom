@@ -5,15 +5,46 @@ import { FaUserLarge } from "react-icons/fa6";
 import IO from "socket.io-client";
 import { useEffect, useState } from "react";
 
-const socket = IO.connect("http://localhost:4000");
+const socket = IO.connect("http://localhost:3000/api");
+const pvSocket = IO.connect("http://localhost:3000/api/pvs");
 
 export default function Home() {
   const [pvs, setPvs] = useState([]);
+
+  const [message, setMessage] = useState([]);
+  const [reciver, setReciver] = useState([]);
+
   useEffect(() => {
     socket.on("privateChats", (pvs) => {
       setPvs([...pvs]);
     });
   }, []);
+
+  const joinToChat = (sender, reciver) => {
+    console.log({ sender, reciver });
+    pvSocket.emit("joining", {
+      sender,
+      reciver,
+    });
+  };
+
+  const sendMsg = (msg, sender, reciver) => {
+    pvSocket.emit("newMsg", {
+      message,
+      pv: {
+        sender,
+        reciver,
+      },
+    });
+  };
+
+  const sendMsgHandler = (e) => {
+    e.preventDefault();
+    if (e.keyCode === 13) {
+      console.log(msg);
+      sendMsg(message, user.username, reciver);
+    }
+  };
   return (
     <div className="grid grid-cols-10 h-screen">
       <div className="bg-[#dfe8e3] p-5 col-span-3">
@@ -97,7 +128,13 @@ export default function Home() {
           </li>
 
           {pvs.map((pv) => (
-            <li className="flex bg-white rounded-md px-4 py-2">
+            <li
+              onClick={() => {
+                setReciver(pv.username);
+                joinToChat(user.username, pv.username);
+              }}
+              className="flex bg-white rounded-md px-4 py-2"
+            >
               <div className="avatar-box">
                 <Image width={50} src={man} className="avatarr" />
                 <div className="offline"></div>
@@ -110,7 +147,6 @@ export default function Home() {
               </div>
             </li>
           ))}
-          
         </ul>
       </div>
       <div className=" col-span-7 ">
